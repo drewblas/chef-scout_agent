@@ -29,9 +29,11 @@ if node[:scout_agent][:key]
     "/var/spool/cron/#{node[:scout_agent][:user]}"
   end
 
+  name_attr = node[:scout_agent][:name] ? %{ --name="#{node[:scout_agent][:name]}"} : ""
+
   bash "initialize scout" do
     code <<-EOH
-    #{node[:scout_agent][:scout_bin]} #{node[:scout_agent][:key]}
+    #{node[:scout_agent][:scout_bin]} #{node[:scout_agent][:key]}#{name_attr}
     EOH
     not_if do File.exist?(crontab_path) end
   end
@@ -39,7 +41,7 @@ if node[:scout_agent][:key]
   # schedule scout agent to run via cron
   cron "scout_run" do
     user node[:scout_agent][:user]
-    command "#{node[:scout_agent][:scout_bin]} #{node[:scout_agent][:key]}"
+    command "#{node[:scout_agent][:scout_bin]} #{node[:scout_agent][:key]}#{name_attr}"
     only_if do File.exist?(node[:scout_agent][:scout_bin]) end
   end
 else

@@ -20,6 +20,7 @@ It looks like:
 * scout_agent[:key] - Used to validate your agent when it checks into the Scout server.
 * scout_agent[:scout_bin] - The full path that the scout gem binary is accessible from
 * scout_agent[:public_key] - If you use self-signed custom plugins, set this attribute to the public key value and it'll be installed on the server
+* `[:scout_agent][:name]` - Set the 'pretty' name for this system to report as instead of the hostname
 
 = USAGE:
 
