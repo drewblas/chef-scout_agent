@@ -45,3 +45,13 @@ if node[:scout_agent][:key]
 else
   Chef::Log.info "Add a [:scout_agent][:key] attribute to configure this node's Scout Agent"
 end
+
+if node[:scout_agent][:public_key]
+  template "/home/#{node[:scout_agent][:user]}/.scout/scout_rsa.pub" do
+    source "scout_rsa.pub.erb"
+    mode 0440
+    owner node[:scout_agent][:user]
+    group node[:scout_agent][:group]
+    action :create
+  end
+end
