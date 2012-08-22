@@ -16,8 +16,10 @@ It looks like:
 
 * scout_agent[:user] - User to run Scout agent under.  Will be created if it does not exist.  Default is 'scout'.
 * scout_agent[:group] - User group to run Scout agent under.  Will be created if it does not exist.  Default is 'scout'.
-* scout_agent[:version] - Gem version to install.  Default is 5.0.3.
+* scout_agent[:version] - Gem version to install.  Default is 5.5.6.
 * scout_agent[:key] - Used to validate your agent when it checks into the Scout server.
+* scout_agent[:scout_bin] - The full path that the scout gem binary is accessible from
+* scout_agent[:public_key] - If you use self-signed custom plugins, set this attribute to the public key value and it'll be installed on the server
 
 = USAGE:
 
@@ -25,8 +27,17 @@ Include the scout_monitor recipe to install Scout Agent and configure a Cron job
 
 = LICENSE & AUTHOR:
 
+Additions, Modifications, & Updates:
+
+Author:: Drew Blas (<drew.blas@gmail.com>)
+Copyright:: 2012, Drew Blas
+https://github.com/drewblas/chef-scout_agent
+
+Originally:
+
 Author:: Seth Chisamore (<schisamo@gmail.com>)
 Copyright:: 2010, Seth Chisamore
+https://github.com/schisamo/chef_cookbooks
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
