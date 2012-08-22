@@ -14,17 +14,17 @@ It looks like:
 
 = ATTRIBUTES:
 
-* scout_agent[:user] - User to run Scout agent under.  Will be created if it does not exist.  Default is 'scout'.
+* `[:scout_agent][:key]` - Used to validate your agent when it checks into the Scout server.
+* `[:scout_agent][:user]` - User to run Scout agent under.  Will be created if it does not exist.  Default is 'scout'.
 * scout_agent[:group] - User group to run Scout agent under.  Will be created if it does not exist.  Default is 'scout'.
-* scout_agent[:version] - Gem version to install.  Default is 5.5.6.
-* scout_agent[:key] - Used to validate your agent when it checks into the Scout server.
-* scout_agent[:scout_bin] - The full path that the scout gem binary is accessible from
-* scout_agent[:public_key] - If you use self-signed custom plugins, set this attribute to the public key value and it'll be installed on the server
+* `[:scout_agent][:version]` - Gem version to install.  Default is 5.5.6.
+* `[:scout_agent][:scout_bin]` - The full path that the scout gem binary is accessible from
+* `[:scout_agent][:public_key]` - If you use self-signed custom plugins, set this attribute to the public key value and it'll be installed on the server
 * `[:scout_agent][:name]` - Set the 'pretty' name for this system to report as instead of the hostname
 
 = USAGE:
 
-Include the scout_monitor recipe to install Scout Agent and configure a Cron job to run it.  Be sure to set the scout_agent[:key] attribute on every node where you want the agent to run.
+Include the scout_monitor recipe to install Scout Agent and configure a Cron job to run it.  Be sure to set the `[:scout_agent][:key]` attribute on every node where you want the agent to run.
 
 = LICENSE & AUTHOR:
 
