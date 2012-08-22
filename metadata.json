@@ -27,11 +27,11 @@
 
     ]
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "replacing": {
 
   },
-  "maintainer": "Seth Chisaore",
+  "maintainer": "Drew Blas",
   "name": "scout_agent",
   "recommendations": {
 
@@ -39,5 +39,5 @@
   "attributes": {
 
   },
-  "maintainer_email": "schisamo@gmail.com"
+  "maintainer_email": "drew.blas@gmail.com"
 }
