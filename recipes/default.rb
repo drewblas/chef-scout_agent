@@ -40,7 +40,7 @@ if node[:scout_agent][:key]
   cron "scout_run" do
     user node[:scout_agent][:user]
     command "#{node[:scout_agent][:scout_bin]} #{node[:scout_agent][:key]}"
-    only_if do File.exist?("/usr/bin/scout") end
+    only_if do File.exist?(node[:scout_agent][:scout_bin]) end
   end
 else
   Chef::Log.info "Add a [:scout_agent][:key] attribute to configure this node's Scout Agent"
