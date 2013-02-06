@@ -78,8 +78,8 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
     </tr>
     <tr>
       <td>[:scout][:scout_bin]</td>
-      <td>The full path to the scout gem binary. Run `gem env` on the node to view the <code>EXECUTABLE DIRECTORY</code>.</td>
-      <td><code>/usr/bin/scout</code></td>
+      <td>The full path to the scout gem executable. When <code>nil</code>, this is discovered via <code>Gem#bindir</code>.</td>
+      <td><code>nil</code></td>
     </tr>
     <tr>
       <td>[:scout][:version]</td>
