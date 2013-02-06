@@ -1,59 +1,62 @@
 #
-# Cookbook Name:: scout_agent
+# Cookbook Name:: scout
 # Recipe:: default
 
 # create user and group
-group node[:scout_agent][:group] do
+group node[:scout][:group] do
   action [ :create, :manage ]
 end
-user node[:scout_agent][:user] do
+user node[:scout][:user] do
   comment "Scout Agent"
-  gid node[:scout_agent][:group]
-  home "/home/#{node[:scout_agent][:user]}"
+  gid node[:scout][:group]
+  home "/home/#{node[:scout][:user]}"
   supports :manage_home => true
   action [ :create, :manage ]
 end
 
 # install scout agent gem
 gem_package "scout" do
-  version node[:scout_agent][:version]
+  version node[:scout][:version]
   action :install
 end
 
-if node[:scout_agent][:key]
+if node[:scout][:key]
   # initialize scout gem
   crontab_path = case node.platform
   when 'debian','ubuntu'
-    "/var/spool/cron/crontabs/#{node[:scout_agent][:user]}"
+    "/var/spool/cron/crontabs/#{node[:scout][:user]}"
   when 'redhat','centos','fedora','scientific','suse','amazon'
-    "/var/spool/cron/#{node[:scout_agent][:user]}"
+    "/var/spool/cron/#{node[:scout][:user]}"
   end
 
-  name_attr = node[:scout_agent][:name] ? %{ --name="#{node[:scout_agent][:name]}"} : ""
-
+  name_attr = node[:scout][:name] ? %{ --name="#{node[:scout][:name]}"} : ""
+  server_attr = node[:scout][:server] ? %{ --server="#{node[:scout][:server]}"} : ""
+  roles_attr = node[:scout][:roles] ? %{ --roles="#{node[:scout][:roles].map(&:to_s).join(',')}"} : ""
+  
+  code=nil
   bash "initialize scout" do
-    code <<-EOH
-    #{node[:scout_agent][:scout_bin]} #{node[:scout_agent][:key]}#{name_attr}
+    code = <<-EOH
+    #{node[:scout][:scout_bin]} #{node[:scout][:key]}#{name_attr}#{server_attr}#{roles_attr}
     EOH
     not_if do File.exist?(crontab_path) end
   end
 
   # schedule scout agent to run via cron
   cron "scout_run" do
-    user node[:scout_agent][:user]
-    command "#{node[:scout_agent][:scout_bin]} #{node[:scout_agent][:key]}#{name_attr}"
-    only_if do File.exist?(node[:scout_agent][:scout_bin]) end
+    user node[:scout][:user]
+    command code
+    only_if do File.exist?(node[:scout][:scout_bin]) end
   end
 else
-  Chef::Log.info "Add a [:scout_agent][:key] attribute to configure this node's Scout Agent"
+  Chef::Log.warn "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:key] attribute to complete the install."
 end
 
-if node[:scout_agent][:public_key]
-  template "/home/#{node[:scout_agent][:user]}/.scout/scout_rsa.pub" do
+if node[:scout][:public_key]
+  template "/home/#{node[:scout][:user]}/.scout/scout_rsa.pub" do
     source "scout_rsa.pub.erb"
     mode 0440
-    owner node[:scout_agent][:user]
-    group node[:scout_agent][:group]
+    owner node[:scout][:user]
+    group node[:scout][:group]
     action :create
   end
 end
