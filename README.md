@@ -2,20 +2,26 @@
 
 Installs the agent for [Scout](http://scoutapp.com), a hosted server monitoring service. This recipe:
 
-* Installs the `scout` Ruby gem
-* Configures the Cron job to run the monitoring agent
+* Installs the [Scout Ruby gem](https://rubygems.org/gems/scout)
+* Configures a Cron job to run the monitoring agent
 
-## Requirements
+## Supported Platforms
 
-Debian or Ubuntu preferred.  Tested on Ubuntu 8.04 Server LTS, should work on others.
+The following platforms are supported by this cookbook, meaning that the recipes run on these platforms without error:
 
-The agent requires a Scout account and the account's associated key. The key can be found in the account settings tab within the Scout UI or in the server setup instructions.
+* Ubuntu
+* Debian
+* Red Hat
+* CentOS
+* Fedora
+* Scientific
+* Amazon
 
-The key looks like:
+## Recipes
 
-    0mZ6BD9DR0qyZjaBLCPZZWkW3n2Wn7DV9xp5gQPs
+* `scout` - The default recipe.
 
-## Attributes
+## Required Attributes
 
 <table>
   <thead>
@@ -27,10 +33,29 @@ The key looks like:
   </thead>
   <tbody>
     <tr>
-      <td>[:scout][:key]</td>
-      <td>Assigns this node to the account with the specified key.</td>
-      <td><code>nil</code></td>
+      <td style="width:15%">[:scout][:key]</td>
+      <td>
+        The agent requires a Scout account and the account's associated key. The key can be found in the account settings tab within the Scout UI or in the server setup instructions. The key looks like:
+          <code>0mZ6BD9DR0qyZjaBLCPZZWkW3n2Wn7DV9xp5gQPs</code> 
+      </td>
+      <td style="width:15%"><code>nil</code></td>
     </tr>
+  </tbody>
+</table>
+
+If the <code>[:scout][:key]</code> attribute is not provided, the Cron job won't be installed but all other parts of the recipe will execute. 
+
+## Optional Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:20%">Attribute</th>
+      <th>Description</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
     <tr>
       <td>[:scout][:user]</td>
       <td>User to run the Scout agent under. Will be created if it does not exist.</td>
@@ -58,8 +83,8 @@ The key looks like:
     </tr>
     <tr>
       <td>[:scout][:version]</td>
-      <td>Gem version to install.</td>
-      <td><code>Latest Release</code></td>
+      <td>Gem version to install. <code>nil</code> installs the latest release.</td>
+      <td><code>nil</code></td>
     </tr>
     <tr>
       <td>[:scout][:public_key]</td>
@@ -77,7 +102,7 @@ Contact Scout (<support@scoutapp.com>) with any questions, suggestions, bugs, et
 
 Additions, Modifications, & Updates:
 
-Author: Scout (<support@scoutapp.com>)
+Author: Derek Haynes (<support@scoutapp.com>)
 Copyright: 2013, Scout
 https://github.com/scoutapp/chef-scout
 
