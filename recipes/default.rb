@@ -29,14 +29,17 @@ if node[:scout][:key]
     "/var/spool/cron/#{node[:scout][:user]}"
   end
 
+  scout_bin = node[:scout][:bin] ? node[:scout][:bin] : "#{Gem.bindir}/scout"
   name_attr = node[:scout][:name] ? %{ --name="#{node[:scout][:name]}"} : ""
   server_attr = node[:scout][:server] ? %{ --server="#{node[:scout][:server]}"} : ""
   roles_attr = node[:scout][:roles] ? %{ --roles="#{node[:scout][:roles].map(&:to_s).join(',')}"} : ""
+  http_proxy_attr = node[:scout][:http_proxy] ? %{ --http-proxy="#{node[:scout][:http_proxy]}"} : ""
+  https_proxy_attr = node[:scout][:https_proxy] ? %{ --https-proxy="#{node[:scout][:https_proxy]}"} : ""
   
   code=nil
   bash "initialize scout" do
     code = <<-EOH
-    #{node[:scout][:scout_bin]} #{node[:scout][:key]}#{name_attr}#{server_attr}#{roles_attr}
+    #{scout_bin} #{node[:scout][:key]}#{name_attr}#{server_attr}#{roles_attr}#{http_proxy_attr}#{https_proxy_attr}
     EOH
     not_if do File.exist?(crontab_path) end
   end
@@ -45,7 +48,7 @@ if node[:scout][:key]
   cron "scout_run" do
     user node[:scout][:user]
     command code
-    only_if do File.exist?(node[:scout][:scout_bin]) end
+    only_if do File.exist?(scout_bin) end
   end
 else
   Chef::Log.warn "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:key] attribute to complete the install."

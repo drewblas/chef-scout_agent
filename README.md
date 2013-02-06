@@ -43,7 +43,7 @@ The following platforms are supported by this cookbook, meaning that the recipes
   </tbody>
 </table>
 
-If the <code>[:scout][:key]</code> attribute is not provided, the Cron job won't be installed but all other parts of the recipe will execute. 
+If the <code>[:scout][:key]</code> attribute is not provided or the scout executable is not found, the Cron job won't be installed but all other parts of the recipe will execute. 
 
 ## Optional Attributes
 
