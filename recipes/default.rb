@@ -65,6 +65,7 @@ if node[:scout][:public_key]
 end
 
 if node[:scout][:delete_on_shutdown]
+  gem_package 'scout_api'
   template "/etc/rc0.d/scout_shutdown" do
     source "scout_shutdown.erb"
     owner "root"
