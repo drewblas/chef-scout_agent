@@ -78,6 +78,6 @@ else
   end
 end
 
-node[:scout][:plugin_libarary_support].each do |gemname|
+node[:scout][:plugin_gems].each do |gemname|
   gem_package gemname
 end
