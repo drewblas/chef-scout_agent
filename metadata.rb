@@ -5,6 +5,6 @@ description       "Installs and configures monitoring agent for scoutapp.com"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version           "0.3"
 
-%w{debian ubuntu centos}.each do |os|
+%w[ubuntu debian redhat centos fedora scientific amazon].each do |os|
   supports os
 end
