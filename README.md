@@ -77,6 +77,11 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
       <td><code>nil</code></td>
     </tr>
     <tr>
+      <td>[:scout][:plugin_gems_]</td>
+      <td>An Array of plugin gem dependencies to install. For example, you may want to install the <code>redis</code> gem if this node uses the redis plugin.</td>
+      <td><code>nil</code></td>
+    </tr>
+    <tr>
       <td>[:scout][:scout_bin]</td>
       <td>The full path to the scout gem executable. When <code>nil</code>, this is discovered via <code>Gem#bindir</code>.</td>
       <td><code>nil</code></td>

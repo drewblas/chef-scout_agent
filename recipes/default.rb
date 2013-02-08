@@ -12,6 +12,7 @@ user node[:scout][:user] do
   home "/home/#{node[:scout][:user]}"
   supports :manage_home => true
   action [ :create, :manage ]
+  only_if do node[:scout][:user] != 'root' end
 end
 
 # install scout agent gem
@@ -36,13 +37,9 @@ if node[:scout][:key]
   http_proxy_attr = node[:scout][:http_proxy] ? %{ --http-proxy="#{node[:scout][:http_proxy]}"} : ""
   https_proxy_attr = node[:scout][:https_proxy] ? %{ --https-proxy="#{node[:scout][:https_proxy]}"} : ""
   
-  code=nil
-  bash "initialize scout" do
-    code = <<-EOH
-    #{scout_bin} #{node[:scout][:key]}#{name_attr}#{server_attr}#{roles_attr}#{http_proxy_attr}#{https_proxy_attr}
-    EOH
-    not_if do File.exist?(crontab_path) end
-  end
+  code = <<-EOH
+  #{scout_bin} #{node[:scout][:key]}#{name_attr}#{server_attr}#{roles_attr}#{http_proxy_attr}#{https_proxy_attr}
+  EOH
 
   # schedule scout agent to run via cron
   cron "scout_run" do
@@ -79,6 +76,6 @@ else
   end
 end
 
-node[:scout][:plugin_gems].each do |gemname|
+(node[:scout][:plugin_gems] || []).each do |gemname|
   gem_package gemname
 end
