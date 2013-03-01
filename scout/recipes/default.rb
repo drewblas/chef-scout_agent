@@ -31,11 +31,11 @@ if node[:scout][:key]
   end
 
   scout_bin = node[:scout][:bin] ? node[:scout][:bin] : "#{Gem.bindir}/scout"
-  name_attr = node[:scout][:name] ? %{ --name="#{node[:scout][:name]}"} : ""
-  server_attr = node[:scout][:server] ? %{ --server="#{node[:scout][:server]}"} : ""
-  roles_attr = node[:scout][:roles] ? %{ --roles="#{node[:scout][:roles].map(&:to_s).join(',')}"} : ""
-  http_proxy_attr = node[:scout][:http_proxy] ? %{ --http-proxy="#{node[:scout][:http_proxy]}"} : ""
-  https_proxy_attr = node[:scout][:https_proxy] ? %{ --https-proxy="#{node[:scout][:https_proxy]}"} : ""
+  name_attr = node[:scout][:name] ? %{ --name "#{node[:scout][:name]}"} : ""
+  server_attr = node[:scout][:server] ? %{ --server "#{node[:scout][:server]}"} : ""
+  roles_attr = node[:scout][:roles] ? %{ --roles "#{node[:scout][:roles].map(&:to_s).join(',')}"} : ""
+  http_proxy_attr = node[:scout][:http_proxy] ? %{ --http-proxy "#{node[:scout][:http_proxy]}"} : ""
+  https_proxy_attr = node[:scout][:https_proxy] ? %{ --https-proxy "#{node[:scout][:https_proxy]}"} : ""
   
   code = <<-EOH
   #{scout_bin} #{node[:scout][:key]}#{name_attr}#{server_attr}#{roles_attr}#{http_proxy_attr}#{https_proxy_attr}
