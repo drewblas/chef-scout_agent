@@ -54,6 +54,13 @@ else
   Chef::Log.warn "The agent will not report to scoutapp.com as a key wasn't provided. Provide a [:scout][:key] attribute to complete the install."
 end
 
+# create the .scout directory
+directory "/home/#{node[:scout][:user]}/.scout" do
+  group node[:scout][:group]
+  owner node[:scout][:user]
+  mode "0755"
+end
+
 if node[:scout][:public_key]
   home_dir = Dir.respond_to?(:home) ? Dir.home(node[:scout][:user]) : File.expand_path("~#{node[:scout][:user]}")
   template "#{home_dir}/.scout/scout_rsa.pub" do
