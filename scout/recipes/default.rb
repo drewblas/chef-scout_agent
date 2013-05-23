@@ -8,7 +8,8 @@ Chef::Log.info "Loading: #{cookbook_name}::#{recipe_name}"
 # create user and group
 group node[:scout][:group] do
   action [ :create, :manage ]
-end
+end.run_action(:create)
+
 user node[:scout][:user] do
   comment "Scout Agent"
   gid node[:scout][:group]
@@ -16,7 +17,7 @@ user node[:scout][:user] do
   supports :manage_home => true
   action [ :create, :manage ]
   only_if do node[:scout][:user] != 'root' end
-end
+end.run_action(:create)
 
 # install scout agent gem
 gem_package "scout" do
