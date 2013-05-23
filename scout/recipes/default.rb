@@ -5,7 +5,7 @@
 Chef::Log.info "Loading: #{cookbook_name}::#{recipe_name}"
 
 
-# create user and group
+# create group and user
 group node[:scout][:group] do
   action [ :create, :manage ]
 end.run_action(:create)
