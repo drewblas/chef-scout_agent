@@ -96,6 +96,11 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
       <td>If you use self-signed custom plugins, set this attribute to the public key value and it'll be installed on the node.</td>
       <td><code>nil</code></td>
     </tr>
+    <tr>
+      <td>[:scout][:environment]</td>
+      <td>The environment you would like this server to belong to, if you use environments. Environments are defined through scoutapp.com's web UI.</td>
+      <td><code>nil</code></td>
+    </tr>
   </tbody>
 </table>
 
