@@ -81,3 +81,21 @@ end
 (node[:scout][:plugin_gems] || []).each do |gemname|
   gem_package gemname
 end
+
+# Create plugin lookup properties
+template "/home/#{node[:scout][:user]}/.scout/plugins.properties" do
+  source "plugins.properties.erb"
+  mode 0664
+  owner node[:scout][:user]
+  group node[:scout][:group]
+  variables lazy {
+    plugin_properties = {}
+    node['scout']['plugin_properties'].each do |property, lookup_hash|
+      plugin_properties[property] = Chef::EncryptedDataBagItem.load(lookup_hash[:encrypted_data_bag], lookup_hash[:item])[lookup_hash[:key]]
+    end
+    {
+      plugin_properties: plugin_properties
+    }
+  }
+  action :create
+end
