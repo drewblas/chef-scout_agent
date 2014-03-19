@@ -83,6 +83,11 @@ end
 end
 
 # Create plugin lookup properties
+directory "/home/#{node[:scout][:user]}/.scout" do
+  owner node[:scout][:user]
+  group node[:scout][:group]
+  recursive true
+end
 template "/home/#{node[:scout][:user]}/.scout/plugins.properties" do
   source "plugins.properties.erb"
   mode 0664
