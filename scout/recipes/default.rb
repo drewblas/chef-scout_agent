@@ -21,13 +21,26 @@ end.run_action(:create)
 
 # install scout agent gem
 gem_package "scout" do
-  gem_binary File.join(RbConfig::CONFIG['bindir'],"gem")
+  if node[:scout][:rvm_wrapper]
+    gem_binary File.join(node[:scout][:rvm_wrapper],"gem")
+  else
+    gem_binary File.join(RbConfig::CONFIG['bindir'],"gem")
+  end
   version node[:scout][:version]
   action :upgrade
 end
 
 if node[:scout][:key]
-  scout_bin = node[:scout][:bin] ? node[:scout][:bin] : "#{Gem.bindir}/scout"
+  rvm_wrapper = node[:scout][:rvm_wrapper] ? node[:scout][:rvm_wrapper] : ""
+  if rvm_wrapper and File.exist?(File.join(rvm_wrapper, "scout"))
+    scout_bin = File.join(rvm_wrapper, "scout")
+  elsif node[:scout][:bin] and File.exist?(node[:scout][:bin])
+    scout_bin = node[:scout][:bin]
+  elsif File.exist?("#{Gem.default_bindir}/scout")
+    scout_bin = "#{Gem.default_bindir}/scout"
+  else
+    scout_bin = ""
+  end
   name_attr = node[:scout][:name] ? %{ --name "#{node[:scout][:name]}"} : ""
   server_attr = node[:scout][:server] ? %{ --server "#{node[:scout][:server]}"} : ""
   roles_attr = node[:scout][:roles] ? %{ --roles "#{node[:scout][:roles].map(&:to_s).join(',')}"} : ""
