@@ -82,8 +82,13 @@ If the <code>[:scout][:key]</code> attribute is not provided or the scout execut
       <td><code>nil</code></td>
     </tr>
     <tr>
+      <td>[:scout][:rvm_wrapper]</td>
+      <td>The full path to an rvm wrapper where the scout gem and binary will be installed. Overrides <code>[:scout][:bin]</code>. Example: <code>:rvm_wrapper => "/home/vagrant/.rvm/wrappers/ruby-1.9.3-p547"</code></td>
+      <td><code>nil</code></td>
+    </tr>
+    <tr>
       <td>[:scout][:bin]</td>
-      <td>The full path to the scout gem executable. When <code>nil</code>, this is discovered via <code>Gem#bindir</code>.</td>
+      <td>The full path to the scout gem executable. When <code>nil</code>, this is discovered via <code>Gem#default_bindir</code>. This value is ignored when <code>[:scout][:rvm_wrapper]</code> is set.</td>
       <td><code>nil</code></td>
     </tr>
     <tr>
